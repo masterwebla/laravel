@@ -25,7 +25,7 @@ class ServiciosController extends Controller
     {
         //Validar los campos
         $request->validate([
-            'nombre'=>'required|unique:servicios|max:255',
+            'nombre'=>'required|unique:servicios|max:100',
             'descripcion'=>'required'
         ]);
 
@@ -48,18 +48,34 @@ class ServiciosController extends Controller
     //Función para abrir el formulario de edición
     public function edit($id)
     {
-        //
+        $servicio = Servicio::find($id);
+        return view('servicios.editar',compact('servicio'));
     }
 
     //Función para actualizar el servicio
     public function update(Request $request, $id)
     {
-        //
+        //Validar los campos
+        $request->validate([
+            'nombre'=>'required|max:100',
+            'descripcion'=>'required'
+        ]);
+
+        //Actualizar los datos
+        $servicio = Servicio::find($id);
+        $servicio->nombre = $request->nombre;
+        $servicio->descripcion = $request->descripcion;
+        $servicio->save();
+
+        return redirect()->route('servicios.index');
     }
 
     //Función para borrar un registro
     public function destroy($id)
     {
-        //
+        $servicio = Servicio::find($id);
+        $servicio->delete();
+
+        return redirect()->route('servicios.index');
     }
 }

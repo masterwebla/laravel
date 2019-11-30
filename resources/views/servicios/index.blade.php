@@ -18,8 +18,12 @@
 					<td>{{$servicio->nombre}}</td>
 					<td>{{$servicio->descripcion}}</td>
 					<td>
-						<a class="btn btn-warning" href="">Editar</a>
-						<a class="btn btn-danger" href="">Borrar</a>
+						<form action="{{ route('servicios.destroy',$servicio->id) }}" method="post">
+							@csrf
+							<a class="btn btn-warning" href="{{ route('servicios.edit',$servicio->id) }}">Editar</a>
+							<input type="hidden" name="_method" value="delete">
+							<button class="btn btn-danger" onclick="return confirm('Eliminar servicio?')">Borrar</button>
+						</form>
 					</td>
 				</tr>
 			@endforeach
